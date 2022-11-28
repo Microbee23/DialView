@@ -20,6 +20,7 @@ struct Dial: Identifiable {
 struct DialView: View {
     @Binding var dials: [Dial]
     @Binding var relativeLineWidth: CGFloat
+    @Binding var relativeSpacing: CGFloat
     @Binding var label: String
     @Binding var font: Font
     @Binding var color: Color
@@ -33,6 +34,7 @@ struct DialView: View {
         
     init(dials: Binding<[Dial]> = .constant([]),
          relativeLineWidth: Binding<CGFloat> = .constant(0.06),
+         relativeSpacing: Binding<CGFloat> = .constant(0.01),
          label: Binding<String> = .constant(""),
          font: Binding<Font> = .constant(Font.system(size: 14)),
          color: Binding<Color> = .constant(Color.primary),
@@ -41,6 +43,7 @@ struct DialView: View {
     ) {
         _dials = dials
         _relativeLineWidth = relativeLineWidth
+        _relativeSpacing = relativeSpacing
         _label = label
         _font = font
         _color = color
@@ -55,7 +58,9 @@ struct DialView: View {
             let lineWidth = containerSize * relativeLineWidth
             ZStack {
                 ForEach(Array(dials.enumerated()), id: \.offset) { offset, item in
-                    let radius = containerSize - (CGFloat(offset) * lineWidth*2) - lineWidth
+                    let lineOffset = (CGFloat(offset) * lineWidth*2)
+                    let spacing = CGFloat(offset) * containerSize * relativeSpacing
+                    let radius = containerSize - lineOffset - spacing - lineWidth
                     if let backgroundColor = item.backgroundColor {
                         Circle()
                             .trim(from: item.minValue, to: item.maxValue)

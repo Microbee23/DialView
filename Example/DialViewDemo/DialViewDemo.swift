@@ -10,12 +10,12 @@ import SwiftUI
 
 struct DialViewDemo: View {
     let dials: Binding<[Dial]> = .constant([
-        .init(color: .red, value: 0.75, backgroundColor: .red.opacity(0.20)),
-        .init(color: .orange, value: 0.65, backgroundColor: .orange.opacity(0.20)),
-        .init(color: .yellow, value: 0.55, backgroundColor: .yellow.opacity(0.20)),
-        .init(color: .green, value: 0.45, backgroundColor: .green.opacity(0.20)),
-        .init(color: .blue, value: 0.35, backgroundColor: .blue.opacity(0.20)),
-        .init(color: .indigo, value: 0.25, backgroundColor: .indigo.opacity(0.20)),
+        .init(color: .red, value: 0.75, backgroundColor: .red.opacity(0.25)),
+        .init(color: .orange, value: 0.65, backgroundColor: .orange.opacity(0.25)),
+        .init(color: .yellow, value: 0.55, backgroundColor: .yellow.opacity(0.25)),
+        .init(color: .green, value: 0.45, backgroundColor: .green.opacity(0.25)),
+        .init(color: .blue, value: 0.35, backgroundColor: .blue.opacity(0.25)),
+        .init(color: .indigo, value: 0.25, backgroundColor: .indigo.opacity(0.25)),
     ])
     
     var body: some View {
@@ -24,16 +24,18 @@ struct DialViewDemo: View {
                 GridRow {
                     ForEach(0..<3) {col in
                         let relativeLineWidth = 0.03 + CGFloat(row)/100.0
-                        let fontSize = 10.0 + (100.0 * CGFloat(col)/100.0) * 4.0
+                        let relativeSpacing = 0.01 + CGFloat(row)/100.0
+                        let fontSize = 10.0 + (100.0 * CGFloat(col)/100.0) * 3.0
                         let font = Font.system(size: fontSize, weight: .regular)
                         let labelString = String(format: "%.0f%%\n%.0fpt", relativeLineWidth*100.0, fontSize)
                         let color = row+col < dials.wrappedValue.count ? dials.wrappedValue[(row+col)].color : .black
                         DialView(dials: dials,
                                  relativeLineWidth: .constant(relativeLineWidth),
+                                 relativeSpacing: .constant(relativeSpacing),
                                  label: .constant(labelString),
                                  font: .constant(font),
                                  color: .constant(color),
-                                 animation: .constant(Animation.easeInOut(duration: Double(row))))
+                                 animation: .constant(Animation.easeInOut(duration: Double(row*2))))
                             .gridCellColumns(col+1)
                     }
                 }
