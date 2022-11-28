@@ -13,6 +13,8 @@ struct Dial: Identifiable {
     var color: Color
     var value: Double = 0.0
     var minValue: Double = 0.0
+    var maxValue: Double = 1.0
+    var backgroundColor: Color?
 }
 
 struct DialView: View {
@@ -33,7 +35,7 @@ struct DialView: View {
          relativeLineWidth: Binding<CGFloat> = .constant(0.06),
          label: Binding<String> = .constant(""),
          font: Binding<Font> = .constant(Font.system(size: 14)),
-         color: Binding<Color> = .constant(Color.black),
+         color: Binding<Color> = .constant(Color.primary),
          animation: Binding<Animation> = .constant(Animation.easeInOut(duration: 2.0)),
          animateOnAppear: Binding<Bool> = .constant(true)
     ) {
@@ -53,13 +55,22 @@ struct DialView: View {
             let lineWidth = containerSize * relativeLineWidth
             ZStack {
                 ForEach(Array(dials.enumerated()), id: \.offset) { offset, item in
-                    let radius = containerSize-(CGFloat(offset) * lineWidth*2) - lineWidth
+                    let radius = containerSize - (CGFloat(offset) * lineWidth*2) - lineWidth
+                    if let backgroundColor = item.backgroundColor {
+                        Circle()
+                            .trim(from: item.minValue, to: item.maxValue)
+                            .stroke(backgroundColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                            .frame(width: radius, height: radius)
+                            .position(x: geometry.frame(in: .local).midX, y: geometry.frame(in: .local).midY)
+                    }
                     Circle()
                         .trim(from: item.minValue, to: item.value * animatedValue)
                         .stroke(item.color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                         .rotationEffect(.degrees(-90))
                         .frame(width: radius, height: radius)
                         .position(x: geometry.frame(in: .local).midX, y: geometry.frame(in: .local).midY)
+//                        .zIndex(Double(-offset))
                 }
                 Text(label)
                     .font(font)
@@ -82,6 +93,12 @@ struct DialView: View {
 
 struct DialView_Previews: PreviewProvider {
     static var previews: some View {
-        DialViewDemo()
+        DialView(dials: .constant([.init(color: .red, value: 0.75, maxValue: 0.90, backgroundColor: .red.opacity(0.30)),
+                                   .init(color: .green, value: 0.45, maxValue: 0.60, backgroundColor: .green.opacity(0.30)),
+                                   .init(color: .blue, value: 0.15, maxValue: 0.50,  backgroundColor: .blue.opacity(0.30))]),
+                 label: .constant("Usage\n75%"),
+                 font: .constant(Font.largeTitle))
+        .shadow(color: .gray.opacity(0.30), radius: 8, x: 8, y: 8)
+        .padding(20)
     }
 }
