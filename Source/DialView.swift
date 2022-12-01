@@ -26,11 +26,12 @@ struct DialView: View {
     @Binding var color: Color
     @Binding var animation: Animation
     @Binding var animateOnAppear: Bool
+    @Binding var animatedValue: CGFloat
 
     private static let minAnimatedValue = 0.0001
     private static let maxAnimatedValue = 1.0
     
-    @State private var animatedValue: CGFloat = DialView.minAnimatedValue
+//    @State private var animatedValue: CGFloat = DialView.minAnimatedValue
         
     init(dials: Binding<[Dial]> = .constant([]),
          relativeLineWidth: Binding<CGFloat> = .constant(0.06),
@@ -39,8 +40,8 @@ struct DialView: View {
          font: Binding<Font> = .constant(Font.system(size: 14)),
          color: Binding<Color> = .constant(Color.primary),
          animation: Binding<Animation> = .constant(Animation.easeInOut(duration: 2.0)),
-         animateOnAppear: Binding<Bool> = .constant(true)
-    ) {
+         animateOnAppear: Binding<Bool> = .constant(true),
+         animatedValue: Binding<CGFloat> = .constant(DialView.minAnimatedValue)) {
         _dials = dials
         _relativeLineWidth = relativeLineWidth
         _relativeSpacing = relativeSpacing
@@ -49,8 +50,8 @@ struct DialView: View {
         _color = color
         _animation = animation
         _animateOnAppear = animateOnAppear
+        _animatedValue = animatedValue
     }
-    
     
     var body: some View {
         GeometryReader { geometry in
@@ -93,6 +94,13 @@ struct DialView: View {
                 }
             }
         }
+    }
+}
+
+extension DialView {
+    func animateDials(_ animationValue: CGFloat) -> some View {
+        self.animatedValue = animationValue
+        return self
     }
 }
 

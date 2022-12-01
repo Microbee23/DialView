@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A40211652938AC920025FE13 /* DialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4732BBB29348A67000DE14A /* DialView.swift */; };
 		A4732BAE293489B1000DE14A /* DialViewDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4732BAD293489B1000DE14A /* DialViewDemoApp.swift */; };
 		A4732BB2293489B3000DE14A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4732BB1293489B3000DE14A /* Assets.xcassets */; };
 		A4732BB5293489B3000DE14A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4732BB4293489B3000DE14A /* Preview Assets.xcassets */; };
-		A4732BBC29348A67000DE14A /* DialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4732BBB29348A67000DE14A /* DialView.swift */; };
 		A4732BBE29348EC2000DE14A /* DialViewDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4732BBD29348EC2000DE14A /* DialViewDemo.swift */; };
 /* End PBXBuildFile section */
 
@@ -140,8 +140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4732BBC29348A67000DE14A /* DialView.swift in Sources */,
 				A4732BBE29348EC2000DE14A /* DialViewDemo.swift in Sources */,
+				A40211652938AC920025FE13 /* DialView.swift in Sources */,
 				A4732BAE293489B1000DE14A /* DialViewDemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
