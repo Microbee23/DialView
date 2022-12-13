@@ -17,33 +17,35 @@ struct DialViewDemo: View {
         .init(color: .blue, value: 0.35, backgroundColor: .blue.opacity(0.25)),
         .init(color: .indigo, value: 0.25, backgroundColor: .indigo.opacity(0.25)),
     ])
-    
+        
     var body: some View {
-        Grid {
-            ForEach(0..<3) {row in
-                GridRow {
-                    ForEach(0..<3) {col in
-                        let relativeLineWidth = 0.03 + CGFloat(row)/100.0
-                        let relativeSpacing = 0.01 + CGFloat(row)/100.0
-                        let fontSize = 10.0 + (100.0 * CGFloat(col)/100.0) * 3.0
-                        let font = Font.system(size: fontSize, weight: .regular)
-                        let labelString = String(format: "%.0f%%\n%.0fpt", relativeLineWidth*100.0, fontSize)
-                        let color = row+col < dials.wrappedValue.count ? dials.wrappedValue[(row+col)].color : .black
-                        DialView(dials: dials,
-                                 relativeLineWidth: .constant(relativeLineWidth),
-                                 relativeSpacing: .constant(relativeSpacing),
-                                 label: .constant(labelString),
-                                 font: .constant(font),
-                                 color: .constant(color),
-                                 animation: .constant(Animation.easeInOut(duration: Double(row*2))))
+        VStack {
+            Grid {
+                ForEach(0..<3) {row in
+                    GridRow {
+                        ForEach(0..<3) {col in
+                            let relativeLineWidth = 0.03 + CGFloat(row)/100.0
+                            let relativeSpacing = 0.01 + CGFloat(row)/100.0
+                            let fontSize = 10.0 + (100.0 * CGFloat(col)/100.0) * 3.0
+                            let font = Font.system(size: fontSize, weight: .regular)
+                            let labelString = String(format: "%.0f%%\n%.0fpt", relativeLineWidth*100.0, fontSize)
+                            let color = row+col < dials.wrappedValue.count ? dials.wrappedValue[(row+col)].color : .black
+                            DialView(dials: dials,
+                                     relativeLineWidth: .constant(relativeLineWidth),
+                                     relativeSpacing: .constant(relativeSpacing),
+                                     label: .constant(labelString),
+                                     font: .constant(font),
+                                     color: .constant(color),
+                                     animation: .constant(Animation.easeInOut(duration: Double(row*2)))
+                            )
                             .gridCellColumns(col+1)
+                        }
                     }
                 }
             }
+            .shadow(color: .gray.opacity(0.30), radius: 8, x: 8, y: 8)
+            .padding(20)
         }
-        .shadow(color: .gray.opacity(0.30), radius: 8, x: 8, y: 8)
-        .padding(20)
-
     }
 }
 
